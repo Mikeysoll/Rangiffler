@@ -1,0 +1,275 @@
+- generic [ref=f7e1]:
+  - generic [aria-hidden] [ref=f7e2]:
+    - banner [ref=f7e6]:
+      - generic [ref=f7e7]:
+        - button [ref=f7e323] [cursor=pointer]
+        - link [ref=f7e324] [cursor=pointer]:
+          - /url: /my-travels
+          - heading [level=1] [ref=f7e325]: Rangiffler
+        - generic [ref=f7e13]:
+          - button [ref=f7e326] [cursor=pointer]
+          - link [ref=f7e327] [cursor=pointer]:
+            - /url: /profile
+            - generic [ref=f7e18]: P
+          - button [ref=f7e328] [cursor=pointer]
+    - list [ref=f7e25]:
+      - listitem [ref=f7e26]:
+        - link [ref=f7e329] [cursor=pointer]:
+          - /url: /my-travels
+      - listitem [ref=f7e31]:
+        - link [ref=f7e330] [cursor=pointer]:
+          - /url: /people
+      - listitem [ref=f7e37]:
+        - link [ref=f7e331] [cursor=pointer]:
+          - /url: /profile
+    - main [ref=f7e42]:
+      - generic [ref=f7e44]:
+        - generic [ref=f7e45]:
+          - generic [ref=f7e46]:
+            - heading [level=2] [ref=f7e332]: Travels map
+            - button [ref=f7e333] [cursor=pointer]: 4 countries visited
+          - group [ref=f7e334]:
+            - button [pressed] [ref=f7e335] [cursor=pointer]: Only my travels
+            - button [ref=f7e336] [cursor=pointer]: With friends
+        - generic [ref=f7e59]:
+          - figure [ref=f7e64]:
+            - img [ref=f7e337]:
+              - generic [ref=f7e66]:
+                - button [ref=f7e338]
+                - button [ref=f7e339]
+                - button [ref=f7e340]
+                - button [ref=f7e341]
+                - button [ref=f7e342] [cursor=pointer]
+                - button [ref=f7e343]
+                - button [ref=f7e344]
+                - button [ref=f7e345]
+                - button [ref=f7e346]
+                - button [ref=f7e347]
+                - button [ref=f7e348]
+                - button [ref=f7e349]
+                - button [ref=f7e350]
+                - button [ref=f7e351]
+                - button [ref=f7e352]
+                - button [ref=f7e353]
+                - button [ref=f7e354]
+                - button [ref=f7e355]
+                - button [ref=f7e356] [cursor=pointer]
+                - button [ref=f7e357]
+                - button [ref=f7e358]
+                - button [ref=f7e359]
+                - button [ref=f7e360]
+                - button [ref=f7e361]
+                - button [ref=f7e362]
+                - button [ref=f7e363]
+                - button [ref=f7e364]
+                - button [ref=f7e365]
+                - button [ref=f7e366]
+                - button [ref=f7e367]
+                - button [ref=f7e368]
+                - button [ref=f7e369]
+                - button [ref=f7e370]
+                - button [ref=f7e371]
+                - button [ref=f7e372]
+                - button [ref=f7e373]
+                - button [ref=f7e374]
+                - button [ref=f7e375]
+                - button [ref=f7e376]
+                - button [ref=f7e377]
+                - button [ref=f7e378]
+                - button [ref=f7e379]
+                - button [ref=f7e380] [cursor=pointer]
+                - button [ref=f7e381]
+                - button [ref=f7e382]
+                - button [ref=f7e383]
+                - button [ref=f7e384]
+                - button [ref=f7e385]
+                - button [ref=f7e386]
+                - button [ref=f7e387]
+                - button [ref=f7e388]
+                - button [ref=f7e389]
+                - button [ref=f7e390]
+                - button [ref=f7e391]
+                - button [ref=f7e392]
+                - button [ref=f7e393]
+                - button [ref=f7e394]
+                - button [ref=f7e395]
+                - button [ref=f7e396]
+                - button [ref=f7e397]
+                - button [ref=f7e398]
+                - button [ref=f7e399]
+                - button [ref=f7e400]
+                - button [ref=f7e401]
+                - button [ref=f7e402]
+                - button [ref=f7e403]
+                - button [ref=f7e404]
+                - button [ref=f7e405]
+                - button [ref=f7e406]
+                - button [ref=f7e407]
+                - button [ref=f7e408]
+                - button [ref=f7e409]
+                - button [ref=f7e410]
+                - button [ref=f7e411]
+                - button [ref=f7e412]
+                - button [ref=f7e413]
+                - button [ref=f7e414]
+                - button [ref=f7e415]
+                - button [ref=f7e416]
+                - button [ref=f7e417]
+                - button [ref=f7e418]
+                - button [ref=f7e419]
+                - button [ref=f7e420]
+                - button [ref=f7e421]
+                - button [ref=f7e422]
+                - button [ref=f7e423]
+                - button [ref=f7e424]
+                - button [ref=f7e425]
+                - button [ref=f7e426]
+                - button [ref=f7e427]
+                - button [ref=f7e428]
+                - button [ref=f7e429]
+                - button [ref=f7e430]
+                - button [ref=f7e431]
+                - button [ref=f7e432]
+                - button [ref=f7e433]
+                - button [ref=f7e434]
+                - button [ref=f7e435]
+                - button [ref=f7e436]
+                - button [ref=f7e437]
+                - button [ref=f7e438]
+                - button [ref=f7e439]
+                - button [ref=f7e440]
+                - button [ref=f7e441]
+                - button [ref=f7e442]
+                - button [ref=f7e443]
+                - button [ref=f7e444]
+                - button [ref=f7e445]
+                - button [ref=f7e446]
+                - button [ref=f7e447]
+                - button [ref=f7e448]
+                - button [ref=f7e449]
+                - button [ref=f7e450]
+                - button [ref=f7e451]
+                - button [ref=f7e452]
+                - button [ref=f7e453]
+                - button [ref=f7e454]
+                - button [ref=f7e455]
+                - button [ref=f7e456]
+                - button [ref=f7e457]
+                - button [ref=f7e458]
+                - button [ref=f7e459]
+                - button [ref=f7e460]
+                - button [ref=f7e461]
+                - button [ref=f7e462]
+                - button [ref=f7e463]
+                - button [ref=f7e464]
+                - button [ref=f7e465]
+                - button [ref=f7e466]
+                - button [ref=f7e467] [cursor=pointer]
+                - button [ref=f7e468]
+                - button [ref=f7e469]
+                - button [ref=f7e470]
+                - button [ref=f7e471]
+                - button [ref=f7e472]
+                - button [ref=f7e473]
+                - button [ref=f7e474]
+                - button [ref=f7e475]
+                - button [ref=f7e476]
+                - button [ref=f7e477]
+                - button [ref=f7e478]
+                - button [ref=f7e479]
+                - button [ref=f7e480]
+                - button [ref=f7e481]
+                - button [ref=f7e482]
+                - button [ref=f7e483]
+                - button [ref=f7e484]
+                - button [ref=f7e485]
+                - button [ref=f7e486]
+                - button [ref=f7e487]
+                - button [ref=f7e488]
+                - button [ref=f7e489]
+                - button [ref=f7e490]
+                - button [ref=f7e491]
+                - button [ref=f7e492]
+                - button [ref=f7e493]
+                - button [ref=f7e494]
+                - button [ref=f7e495]
+                - button [ref=f7e496]
+                - button [ref=f7e497]
+                - button [ref=f7e498]
+                - button [ref=f7e499]
+                - button [ref=f7e500]
+                - button [ref=f7e501]
+                - button [ref=f7e502]
+                - button [ref=f7e503]
+                - button [ref=f7e504]
+                - button [ref=f7e505]
+                - button [ref=f7e506]
+                - button [ref=f7e507]
+                - button [ref=f7e508]
+                - button [ref=f7e509]
+                - button [ref=f7e510]
+                - button [ref=f7e511]
+                - button [ref=f7e512]
+          - button [ref=f7e513] [cursor=pointer]
+        - heading [level=3] [ref=f7e514]: Photos
+        - generic [ref=f7e247]:
+          - generic [ref=f7e249]:
+            - generic [ref=f7e250]:
+              - generic [ref=f7e252]: Netherlands
+              - button [ref=f7e516] [cursor=pointer]
+            - generic [ref=f7e258]:
+              - paragraph [ref=f7e259]: Амстердам!
+              - generic [ref=f7e260]:
+                - button [ref=f7e517] [cursor=pointer]
+                - paragraph [ref=f7e264]: 0 likes
+          - generic [ref=f7e266]:
+            - generic [ref=f7e267]:
+              - generic [ref=f7e269]: France
+              - button [ref=f7e519] [cursor=pointer]
+            - generic [ref=f7e275]:
+              - paragraph [ref=f7e276]: Париж!
+              - generic [ref=f7e277]:
+                - button [ref=f7e520] [cursor=pointer]
+                - paragraph [ref=f7e281]: 2 likes
+          - generic [ref=f7e283]:
+            - generic [ref=f7e284]:
+              - generic [ref=f7e286]: Russian Federation
+              - button [ref=f7e522] [cursor=pointer]
+            - generic [ref=f7e292]:
+              - paragraph [ref=f7e293]: Петербург!
+              - generic [ref=f7e294]:
+                - button [ref=f7e523] [cursor=pointer]
+                - paragraph [ref=f7e298]: 0 likes
+          - generic [ref=f7e300]:
+            - generic [ref=f7e301]:
+              - generic [ref=f7e303]: United States
+              - button [ref=f7e525] [cursor=pointer]
+            - generic [ref=f7e309]:
+              - paragraph [ref=f7e310]: Нью-Йорк!
+              - generic [ref=f7e311]:
+                - button [ref=f7e526] [cursor=pointer]
+                - paragraph [ref=f7e315]: 1 like
+        - button [ref=f7e527] [cursor=pointer]: Add photo
+  - dialog [active] [ref=f7e530]:
+    - heading "Add photo" [level=2] [ref=f7e531]
+    - generic [ref=f7e533]:
+      - button "Upload new image" [ref=f7e541] [cursor=pointer]
+      - generic [ref=f7e543]:
+        - generic [ref=f7e544]: Country
+        - generic [ref=f7e545]:
+          - combobox "Country" [ref=f7e546] [cursor=pointer]:
+            - img "Russian Federation" [ref=f7e547]
+            - text: Russian Federation
+          - textbox [aria-hidden]: ru
+          - group [aria-hidden]:
+            - generic: Location
+      - generic [ref=f7e549]:
+        - generic: Description
+        - generic [ref=f7e550]:
+          - textbox "Description" [ref=f7e551]:
+            - /placeholder: About this photo
+          - group [aria-hidden]:
+            - generic: Description
+      - generic [ref=f7e552]:
+        - button "Save" [ref=f7e553] [cursor=pointer]
+        - button "Close" [ref=f7e554] [cursor=pointer]

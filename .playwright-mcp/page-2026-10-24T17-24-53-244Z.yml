@@ -1,0 +1,21 @@
+- main [ref=f6e2]:
+  - generic [ref=f6e5]:
+    - heading "Rangiffler logo Rangiffler" [level=1] [ref=f6e6]:
+      - img "Rangiffler logo" [ref=f6e7]
+      - generic [ref=f6e8]: Rangiffler
+    - paragraph [ref=f6e9]: Welcome back! Sign in to share your travels.
+    - generic [ref=f6e10]:
+      - generic [ref=f6e11]:
+        - text: Username
+        - textbox "Username" [ref=f6e12]:
+          - /placeholder: Type your username
+      - generic [ref=f6e13]:
+        - text: Password
+        - textbox "Password Show password" [ref=f6e14]:
+          - /placeholder: Type your password
+        - button "Show password" [ref=f6e15] [cursor=pointer]
+      - button "Sign in" [ref=f6e16] [cursor=pointer]
+      - paragraph [ref=f6e17]:
+        - text: Have no account?
+        - link "Sign up" [ref=f6e18] [cursor=pointer]:
+          - /url: /register

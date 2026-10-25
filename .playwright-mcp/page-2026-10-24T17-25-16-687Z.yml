@@ -1,0 +1,259 @@
+- generic [ref=f7e1]:
+  - generic [ref=f7e2]:
+    - generic:
+      - banner [ref=f7e6]:
+        - generic [ref=f7e7]:
+          - button "open drawer" [ref=f7e555] [cursor=pointer]
+          - link [ref=f7e556] [cursor=pointer]:
+            - /url: /my-travels
+            - heading "Rangiffler" [level=1] [ref=f7e557]
+          - generic [ref=f7e13]:
+            - button "Toggle dark mode" [ref=f7e558] [cursor=pointer]
+            - link "Profile" [ref=f7e559] [cursor=pointer]:
+              - /url: /profile
+              - generic [ref=f7e18]: P
+            - button "Logout" [ref=f7e560] [cursor=pointer]
+      - list [ref=f7e25]:
+        - listitem [ref=f7e26]:
+          - link "My map" [ref=f7e561] [cursor=pointer]:
+            - /url: /my-travels
+        - listitem [ref=f7e31]:
+          - link "People" [ref=f7e562] [cursor=pointer]:
+            - /url: /people
+        - listitem [ref=f7e37]:
+          - link "Profile" [ref=f7e563] [cursor=pointer]:
+            - /url: /profile
+    - main [ref=f7e42]:
+      - generic [ref=f7e44]:
+        - generic [ref=f7e45]:
+          - generic [ref=f7e46]:
+            - heading "Travels map" [level=2] [ref=f7e564]
+            - button [ref=f7e565] [cursor=pointer]
+          - group "Travels filter" [ref=f7e566]:
+            - button "Only my travels" [pressed] [ref=f7e567] [cursor=pointer]
+            - button "With friends" [ref=f7e568] [cursor=pointer]
+        - generic [ref=f7e59]:
+          - figure [ref=f7e64]:
+            - img "World map" [ref=f7e569]:
+              - generic [ref=f7e66]:
+                - button "Fiji" [ref=f7e570]
+                - button "Tanzania" [ref=f7e571]
+                - button "Western Sahara" [ref=f7e572]
+                - button "Canada" [ref=f7e573]
+                - button "United States" [ref=f7e574] [cursor=pointer]
+                - button "Kazakhstan" [ref=f7e575]
+                - button "Uzbekistan" [ref=f7e576]
+                - button "Papua New Guinea" [ref=f7e577]
+                - button "Indonesia" [ref=f7e578]
+                - button "Argentina" [ref=f7e579]
+                - button "Chile" [ref=f7e580]
+                - button "Democratic Republic of the Congo" [ref=f7e581]
+                - button "Somalia" [ref=f7e582]
+                - button "Kenya" [ref=f7e583]
+                - button "Sudan" [ref=f7e584]
+                - button "Chad" [ref=f7e585]
+                - button "Haiti" [ref=f7e586]
+                - button "Dominican Republic" [ref=f7e587]
+                - button "Russia" [ref=f7e588] [cursor=pointer]
+                - button "Bahamas" [ref=f7e589]
+                - button "Falkland Islands" [ref=f7e590]
+                - button "Norway" [ref=f7e591]
+                - button "Greenland" [ref=f7e592]
+                - button "Timor-Leste" [ref=f7e593]
+                - button "South Africa" [ref=f7e594]
+                - button "Lesotho" [ref=f7e595]
+                - button "Mexico" [ref=f7e596]
+                - button "Uruguay" [ref=f7e597]
+                - button "Brazil" [ref=f7e598]
+                - button "Bolivia" [ref=f7e599]
+                - button "Peru" [ref=f7e600]
+                - button "Colombia" [ref=f7e601]
+                - button "Panama" [ref=f7e602]
+                - button "Costa Rica" [ref=f7e603]
+                - button "Nicaragua" [ref=f7e604]
+                - button "Honduras" [ref=f7e605]
+                - button "El Salvador" [ref=f7e606]
+                - button "Guatemala" [ref=f7e607]
+                - button "Belize" [ref=f7e608]
+                - button "Venezuela" [ref=f7e609]
+                - button "Guyana" [ref=f7e610]
+                - button "Suriname" [ref=f7e611]
+                - button "France" [ref=f7e612] [cursor=pointer]
+                - button "Ecuador" [ref=f7e613]
+                - button "Puerto Rico" [ref=f7e614]
+                - button "Jamaica" [ref=f7e615]
+                - button "Cuba" [ref=f7e616]
+                - button "Zimbabwe" [ref=f7e617]
+                - button "Botswana" [ref=f7e618]
+                - button "Namibia" [ref=f7e619]
+                - button "Senegal" [ref=f7e620]
+                - button "Mali" [ref=f7e621]
+                - button "Mauritania" [ref=f7e622]
+                - button "Benin" [ref=f7e623]
+                - button "Niger" [ref=f7e624]
+                - button "Nigeria" [ref=f7e625]
+                - button "Cameroon" [ref=f7e626]
+                - button "Togo" [ref=f7e627]
+                - button "Ghana" [ref=f7e628]
+                - button "Côted'Ivoire" [ref=f7e629]
+                - button "Guinea" [ref=f7e630]
+                - button "Guinea-Bissau" [ref=f7e631]
+                - button "Liberia" [ref=f7e632]
+                - button "Sierra Leone" [ref=f7e633]
+                - button "Burkina Faso" [ref=f7e634]
+                - button "Central African Republic" [ref=f7e635]
+                - button "Republic of the Congo" [ref=f7e636]
+                - button "Gabon" [ref=f7e637]
+                - button "Equatorial Guinea" [ref=f7e638]
+                - button "Zambia" [ref=f7e639]
+                - button "Malawi" [ref=f7e640]
+                - button "Mozambique" [ref=f7e641]
+                - button "Eswatini" [ref=f7e642]
+                - button "Angola" [ref=f7e643]
+                - button "Burundi" [ref=f7e644]
+                - button "Israel" [ref=f7e645]
+                - button "Lebanon" [ref=f7e646]
+                - button "Madagascar" [ref=f7e647]
+                - button "Palestine" [ref=f7e648]
+                - button "The Gambia" [ref=f7e649]
+                - button "Tunisia" [ref=f7e650]
+                - button "Algeria" [ref=f7e651]
+                - button "Jordan" [ref=f7e652]
+                - button "United Arab Emirates" [ref=f7e653]
+                - button "Qatar" [ref=f7e654]
+                - button "Kuwait" [ref=f7e655]
+                - button "Iraq" [ref=f7e656]
+                - button "Oman" [ref=f7e657]
+                - button "Vanuatu" [ref=f7e658]
+                - button "Cambodia" [ref=f7e659]
+                - button "Thailand" [ref=f7e660]
+                - button "Lao PDR" [ref=f7e661]
+                - button "Myanmar" [ref=f7e662]
+                - button "Vietnam" [ref=f7e663]
+                - button "Dem. Rep. Korea" [ref=f7e664]
+                - button "Republic of Korea" [ref=f7e665]
+                - button "Mongolia" [ref=f7e666]
+                - button "India" [ref=f7e667]
+                - button "Bangladesh" [ref=f7e668]
+                - button "Bhutan" [ref=f7e669]
+                - button "Nepal" [ref=f7e670]
+                - button "Pakistan" [ref=f7e671]
+                - button "Afghanistan" [ref=f7e672]
+                - button "Tajikistan" [ref=f7e673]
+                - button "Kyrgyzstan" [ref=f7e674]
+                - button "Turkmenistan" [ref=f7e675]
+                - button "Iran" [ref=f7e676]
+                - button "Syria" [ref=f7e677]
+                - button "Armenia" [ref=f7e678]
+                - button "Sweden" [ref=f7e679]
+                - button "Belarus" [ref=f7e680]
+                - button "Ukraine" [ref=f7e681]
+                - button "Poland" [ref=f7e682]
+                - button "Austria" [ref=f7e683]
+                - button "Hungary" [ref=f7e684]
+                - button "Moldova" [ref=f7e685]
+                - button "Romania" [ref=f7e686]
+                - button "Lithuania" [ref=f7e687]
+                - button "Latvia" [ref=f7e688]
+                - button "Estonia" [ref=f7e689]
+                - button "Germany" [ref=f7e690]
+                - button "Bulgaria" [ref=f7e691]
+                - button "Greece" [ref=f7e692]
+                - button "Turkey" [ref=f7e693]
+                - button "Albania" [ref=f7e694]
+                - button "Croatia" [ref=f7e695]
+                - button "Switzerland" [ref=f7e696]
+                - button "Luxembourg" [ref=f7e697]
+                - button "Belgium" [ref=f7e698]
+                - button "Netherlands" [ref=f7e699] [cursor=pointer]
+                - button "Portugal" [ref=f7e700]
+                - button "Spain" [ref=f7e701]
+                - button "Ireland" [ref=f7e702]
+                - button "New Caledonia" [ref=f7e703]
+                - button "Solomon Islands" [ref=f7e704]
+                - button "New Zealand" [ref=f7e705]
+                - button "Australia" [ref=f7e706]
+                - button "Sri Lanka" [ref=f7e707]
+                - button "China" [ref=f7e708]
+                - button "Taiwan" [ref=f7e709]
+                - button "Italy" [ref=f7e710]
+                - button "Denmark" [ref=f7e711]
+                - button "United Kingdom" [ref=f7e712]
+                - button "Iceland" [ref=f7e713]
+                - button "Azerbaijan" [ref=f7e714]
+                - button "Georgia" [ref=f7e715]
+                - button "Philippines" [ref=f7e716]
+                - button "Malaysia" [ref=f7e717]
+                - button "Brunei Darussalam" [ref=f7e718]
+                - button "Slovenia" [ref=f7e719]
+                - button "Finland" [ref=f7e720]
+                - button "Slovakia" [ref=f7e721]
+                - button "Czech Republic" [ref=f7e722]
+                - button "Eritrea" [ref=f7e723]
+                - button "Japan" [ref=f7e724]
+                - button "Paraguay" [ref=f7e725]
+                - button "Yemen" [ref=f7e726]
+                - button "Saudi Arabia" [ref=f7e727]
+                - button "Northern Cyprus" [ref=f7e728]
+                - button "Cyprus" [ref=f7e729]
+                - button "Morocco" [ref=f7e730]
+                - button "Egypt" [ref=f7e731]
+                - button "Libya" [ref=f7e732]
+                - button "Ethiopia" [ref=f7e733]
+                - button "Djibouti" [ref=f7e734]
+                - button "Somaliland" [ref=f7e735]
+                - button "Uganda" [ref=f7e736]
+                - button "Rwanda" [ref=f7e737]
+                - button "Bosnia and Herzegovina" [ref=f7e738]
+                - button "Macedonia" [ref=f7e739]
+                - button "Serbia" [ref=f7e740]
+                - button "Montenegro" [ref=f7e741]
+                - button "Kosovo" [ref=f7e742]
+                - button "Trinidad and Tobago" [ref=f7e743]
+                - button "South Sudan" [ref=f7e744]
+          - button "Expand map" [ref=f7e745] [cursor=pointer]
+        - heading "Photos" [level=3] [ref=f7e746]
+        - generic [ref=f7e247]:
+          - generic [ref=f7e249]:
+            - generic [ref=f7e250]:
+              - img "Амстердам!" [ref=f7e747]
+              - generic [ref=f7e252]: Netherlands
+              - button "Photo actions" [ref=f7e748] [cursor=pointer]
+            - generic [ref=f7e258]:
+              - paragraph [ref=f7e259]: Амстердам!
+              - generic [ref=f7e260]:
+                - button "like" [ref=f7e749] [cursor=pointer]
+                - paragraph [ref=f7e264]: 0 likes
+          - generic [ref=f7e266]:
+            - generic [ref=f7e267]:
+              - img "Париж!" [ref=f7e750]
+              - generic [ref=f7e269]: France
+              - button "Photo actions" [ref=f7e751] [cursor=pointer]
+            - generic [ref=f7e275]:
+              - paragraph [ref=f7e276]: Париж!
+              - generic [ref=f7e277]:
+                - button "like" [ref=f7e752] [cursor=pointer]
+                - paragraph [ref=f7e281]: 2 likes
+          - generic [ref=f7e283]:
+            - generic [ref=f7e284]:
+              - img "Петербург!" [ref=f7e753]
+              - generic [ref=f7e286]: Russian Federation
+              - button "Photo actions" [ref=f7e754] [cursor=pointer]
+            - generic [ref=f7e292]:
+              - paragraph [ref=f7e293]: Петербург!
+              - generic [ref=f7e294]:
+                - button "like" [ref=f7e755] [cursor=pointer]
+                - paragraph [ref=f7e298]: 0 likes
+          - generic [ref=f7e300]:
+            - generic [ref=f7e301]:
+              - img "Нью-Йорк!" [ref=f7e756]
+              - generic [ref=f7e303]: United States
+              - button "Photo actions" [ref=f7e757] [cursor=pointer]
+            - generic [ref=f7e309]:
+              - paragraph [ref=f7e310]: Нью-Йорк!
+              - generic [ref=f7e311]:
+                - button "like" [ref=f7e758] [cursor=pointer]
+                - paragraph [ref=f7e315]: 1 like
+        - button "Add photo" [active] [ref=f7e759] [cursor=pointer]
+  - generic: Location
+  - generic: Description

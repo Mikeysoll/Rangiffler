@@ -1,0 +1,36 @@
+# Local Rangiffler commands. Process ownership and .bak policy: see AGENTS.md.
+prefix_rule(
+    pattern = [["./gradlew.bat", ".\\gradlew.bat", "./gradlew"], ["runAll", ":rfr-auth:bootRun", ":rfr-api:bootRun", "e2e", ":rfr-e2e:test", "build", ":rfr-auth:assemble", ":rfr-api:assemble", ":rfr-e2e:testClasses", ":rfr-e2e:compileTestJava"]],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = [["npm", "npm.cmd"], "run", ["dev", "build", "lint"]],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = [["npm", "npm.cmd"], "ci"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["docker", ["start", "stop", "restart"], "rfr-mysql"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["docker", "compose", "up", "-d", "--wait", "mysql"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = ["docker", "compose", ["stop", "start", "restart"], "mysql"],
+    decision = "allow",
+)
+
+prefix_rule(
+    pattern = [["rm", "Remove-Item", "remove-item", "del", "erase", "rmdir", "rd"]],
+    decision = "forbidden",
+    justification = "Rename the project file or directory to a unique .bak path instead; preserve existing backups.",
+)

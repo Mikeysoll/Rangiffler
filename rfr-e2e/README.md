@@ -1,107 +1,51 @@
-# UI-тесты
+# rfr-e2e
 
-Для запуска нужны JDK 25, MySQL и работающие `rfr-auth` (9001), `rfr-api` (8081),
-`rfr-gql-client` (3001). Команда из корня проекта:
+E2E-тесты Rangiffler: JUnit 6.1.3, Playwright Java 1.63 (`@UsePlaywright`), Allure 3, `JdbcClient` для фикстур.
 
-```powershell
-./gradlew.bat :rfr-e2e:test --tests io.student.rangiffler.test.RegistrationTest
+## Запуск
+
+```bash
+./gradlew :rfr-e2e:installPlaywright                      # один раз: браузер Chromium
+./gradlew e2e                                             # все UI-тесты (тег ui)
+./gradlew :rfr-e2e:e2e --tests '*MainPageTest'            # один тест
+./gradlew :rfr-e2e:test                                   # всё без тега ui, стенд не нужен; с --tests тег ui не отсекается (запуск из IDE)
+./gradlew :rfr-e2e:allureReport                           # rfr-e2e/build/reports/allure-report/allureReport/index.html
 ```
 
-Тест запускает Chromium без окна (headless) в новом изолированном контексте. Playwright
-при первом запуске автоматически скачивает необходимые браузеры. Для другого адреса
-клиента задайте переменную окружения `RFR_BASE_URL`; адрес должен соответствовать
-настройкам OAuth приложения.
+Стенд: MySQL `:3306`, `rfr-auth :9001`, `rfr-api :8081`, фронт `:3001` (см. корневой README).
 
-Адреса собраны в `config/TestConfig`. Приоритет: system property `rfr.<key>` →
-ENV `RFR_<KEY>` (точки заменяются на `_`) → константа в коде.
-Пустые значения пропускаются.
+Тесты, которым нужен браузер и стенд, помечены `@Tag("ui")` и запускаются задачей `e2e`. Задача `test` исключает тег `ui` и обходится без стенда. Обе задачи запускают тесты при каждом вызове, `--rerun-tasks` не нужен. Перед тестами `e2e` вызывает `waitForStand` (`scripts/wait-for-stand.sh`): он ждёт MySQL, `rfr-auth`, `rfr-api` и фронт не дольше `WAIT_TIMEOUT` секунд (по умолчанию 180).
 
-| Конфигурация | System property | ENV | Значение по умолчанию |
-| --- | --- | --- | --- |
-| `FRONT_URL` | `rfr.base.url` | `RFR_BASE_URL` | `http://localhost:3001` |
-| `AUTH_URL` | `rfr.auth.url` | `RFR_AUTH_URL` | `http://localhost:9001` |
-| `API_URL` | `rfr.api.url` | `RFR_API_URL` | `http://localhost:8081` |
+## Конфигурация
 
-Gradle передаёт свойства с префиксом `rfr.` в JVM тестов. Например:
+`TestConfig` читает `-Drfr.<ключ>` → `RFR_<КЛЮЧ>` → значение по умолчанию. Gradle передаёт все `-Drfr.*` в тестовую JVM.
 
-```powershell
-./gradlew.bat '-Drfr.base.url=http://localhost:3001' :rfr-e2e:test --tests io.student.rangiffler.test.RegistrationTest
-```
+| Ключ | По умолчанию |
+|---|---|
+| `rfr.frontUrl` | `http://localhost:3001` |
+| `rfr.authUrl` | `http://localhost:9001` |
+| `rfr.apiUrl` | `http://localhost:8081` |
+| `rfr.dbUrl` | `jdbc:mysql://localhost:3306` (схема добавляется кодом) |
+| `rfr.dbUser` / `rfr.dbPassword` | `root` / `secret` |
+| `rfr.browser` / `rfr.headless` | `chromium` / `true` |
 
-UI-тест открывает клиент, а переходы
-на сервер авторизации выполняет само приложение.
-Генерация логина и пароля находится в `utils/RandomDataUtils`.
+## Архитектура
 
-Каждый запуск создаёт уникального пользователя через UI. Пользователь остаётся
-в локальной БД после теста. Проверяются сообщение об успешной регистрации,
-вход, открытие карты и логин пользователя в защищённом профиле.
+Один source set `src/test`, пакет `io.student.rangiffler`:
 
-HTML-отчёт Gradle: `build/reports/tests/test/index.html` внутри этого модуля.
+| Пакет | Что лежит |
+|---|---|
+| `config` | `TestConfig` — единственная точка чтения настроек |
+| `jupiter` | всё про JUnit: `annotation` (`@User`, `@ProbeTarget`), `extension` (`UserExtension`; `StandSchemaExtension` — перед задачей `e2e` сверяет миграции, регистрируется через ServiceLoader), `condition` (`ProbeTargetCondition` — мишени probe-тестов выполняются только внутри EngineTestKit), `probe` |
+| `data` | тестовые данные и их владельцы: `TestUser`, `UserFixture` с реализацией `SingleUserFixture` и декораторами `UserWithFriendsFixture`, `UserWithIncomeInvitationsFixture`, `UserRequest` собирает их цепочку; `db` — `Databases`, `Jdbc` и неизменяемые объекты строк (`Row`/`Rows`: `AuthAccount`, `ApiProfile`, `Friendship`, `Friendships`), которые прячут весь SQL за `create`/`delete`/`exists`; `Migrations` сверяет схему БД с миграциями бэкенда через Flyway validate |
+| `utils` | статические утилиты без состояния: `RandomDataUtils` — случайные username/password; сюда же будущие генераторы (описания фото и т.п.) |
+| `ui` | `page` — Page Objects, `component` — общие части страниц |
+| `test` | только тесты, по фичам: `auth`, `profile`, позже `people`, … |
 
-## Пользователь из БД auth
+Правила: в `jupiter` нет SQL и локаторов; в `data` нет JUnit; в `test` нет локаторов и SQL; `ThreadLocal` для состояния теста не используется — состояние живёт в Store расширения.
 
-`@User` на параметре автоматически подключает `UserExtension`:
+## Агент
 
-```java
-@Test
-void shouldLogin(@User TestUser user) {
-  new LandingPage(page).open().login()
-      .fillLoginForm(user.username(), user.password())
-      .signIn().shouldBeAuthenticated();
-}
-```
+Page Objects пишет Claude Code по skill `rfr-page-objects`; UI исследуется через Playwright MCP (`.mcp.json`).
 
-Импорты: `io.student.rangiffler.annotation.User` и
-`io.student.rangiffler.model.TestUser`. Каждый параметр получает отдельного
-пользователя с UUID, логином и исходным паролем. Spring JDBC записывает пользователя
-и права `read`/`write` в одной транзакции, пароль кодируется тем же
-`DelegatingPasswordEncoder`, что и в auth. Spring Boot context не запускается.
-`new UserFixture()` подготавливает модель без записи в БД. Метод `create()`
-создаёт пользователя в auth, `user()` возвращает
-его тестовую модель, а `close()` удаляет права и пользователя через репозиторий.
-Extension сначала сохраняет fixture в JUnit Store и только потом вызывает `create()`.
-Поэтому Store вызовет очистку и при ошибке создания. `close()` безопасен до создания,
-после неудачной попытки и при повторном вызове; удаление ограничено UUID fixture.
-JUnit Store вызывает `close()` после завершения теста,
-включая случай падения. Профиль в БД API, если он был создан при входе, остаётся.
-Для параметров lifecycle-методов ресурс живёт в соответствующем JUnit context.
-
-Fixture также можно использовать напрямую:
-
-```java
-try (UserFixture fixture = new UserFixture()) {
-  fixture.create();
-  TestUser user = fixture.user();
-  // Сценарий с подготовленным пользователем.
-}
-```
-
-Настройки БД используют приоритет system property → ENV → fallback:
-
-| System property | ENV | Fallback |
-| --- | --- | --- |
-| `rfr.auth.db.url` | `RFR_AUTH_DB_URL` | `jdbc:mysql://localhost:3306/rangiffler-auth?serverTimezone=UTC` |
-| `rfr.auth.db.username` | `RFR_AUTH_DB_USERNAME` | `root` |
-| `rfr.auth.db.password` | `RFR_AUTH_DB_PASSWORD` | локальный пароль из конфигурации auth |
-
-По умолчанию используются те же локальные реквизиты, что и в конфигурации auth.
-Для другой БД переопределите их через system properties или ENV.
-Схема должна быть создана миграциями auth.
-`LoginTest` проверяет реальный вход пользователя из БД.
-`RegistrationTest` по-прежнему регистрирует пользователя через UI.
-
-## Работа с БД
-
-`data/db/Databases` содержит `AUTH` и `API`: у каждой базы собственные
-`DataSource` и transaction manager. API использует настройки `rfr.api.db.url`,
-`rfr.api.db.username`, `rfr.api.db.password` (ENV: `RFR_API_DB_URL`,
-`RFR_API_DB_USERNAME`, `RFR_API_DB_PASSWORD`); локальные fallback соответствуют
-конфигурации сервера API.
-
-`JDBC.jdbcClient(database)` возвращает Spring `JdbcClient`.
-`JDBC.inTransaction(database, action)` выполняет `Runnable` или `Supplier<T>`
-в транзакции выбранной БД с откатом при исключении. Внутри callback используйте
-клиент этой же базы. Это транзакция одной БД, без распределённой транзакции.
-`JDBC.loadSql(resourcePath)` читает SQL из classpath в UTF-8.
-Все SQL E2E-модуля находятся в `src/test/resources/sql/`, значения передаются
-именованными параметрами.
+Доказательство корректности теста - запуск gradle таски.

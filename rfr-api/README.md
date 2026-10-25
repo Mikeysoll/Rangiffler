@@ -202,7 +202,7 @@ HTTP-статус GraphQL-ответа - 200 и при ошибке; прове�
   в `RangifflerApiConfiguration`).
 - Username текущего пользователя - claim `sub` (`@AuthenticationPrincipal Jwt`).
 - Невалидный или просроченный Bearer-токен - HTTP 401 от фильтра, до GraphQL.
-- GraphiQL (`/graphiql`) включен, но `GET` на него требует аутентификации - см. раздел Security config в корневом README.
+- GraphiQL (`/graphiql`) включен, но без фильтров пропускается только `POST /graphql`: `GET /graphiql` требует Bearer-токен и в браузере отвечает 401.
 
 ## База данных
 
@@ -223,13 +223,12 @@ UUID пользователя в `rangiffler-api` и `rangiffler-auth` неза�
 Требования: JDK 25 (Gradle toolchain), Docker для MySQL, запущенный `rfr-auth` (нужен для JWKS).
 
 ```bash
-# из корня проекта: MySQL в Docker
-# внимание: localenv.sh останавливает и удаляет ВСЕ docker-контейнеры на машине
-bash localenv.sh
+# из корня проекта: MySQL из compose.yaml, ждём healthy
+docker compose up -d --wait
 
-cd rfr-api
-../gradlew bootRun
+./gradlew :rfr-api:bootRun
 # или main class io.student.rangiffler.RangifflerApiApplication из IDE
+# rfr-auth и rfr-api вместе: ./gradlew runAll
 ```
 
 Проверка (access token можно взять в localStorage фронтенда после логина, ключ `access_token`):
