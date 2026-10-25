@@ -1,7 +1,9 @@
-package io.student.rangiffler.fixture;
+package io.student.rangiffler.test;
 
 import io.student.rangiffler.data.AuthUserRepository;
 import io.student.rangiffler.data.db.RegisteredUserRows;
+import io.student.rangiffler.fixture.Registration;
+import io.student.rangiffler.fixture.RegistrationFixture;
 import io.student.rangiffler.model.TestUser;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
