@@ -1,6 +1,7 @@
 package io.student.rangiffler.extension;
 
 import io.student.rangiffler.annotation.User;
+import io.student.rangiffler.data.UserRequest;
 import io.student.rangiffler.fixture.UserFixture;
 import io.student.rangiffler.model.TestUser;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -28,7 +29,7 @@ public final class UserExtension implements ParameterResolver {
     var key = parameterContext.getParameter();
     UserFixture fixture = store.get(key, UserFixture.class);
     if (fixture == null) {
-      fixture = new UserFixture();
+      fixture = new UserRequest(parameterContext.findAnnotation(User.class).orElseThrow()).fixture();
       store.put(key, fixture);
       fixture.create();
     }

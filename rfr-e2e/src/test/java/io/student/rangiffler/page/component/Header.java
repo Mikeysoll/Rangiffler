@@ -5,6 +5,8 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import io.qameta.allure.Step;
 import io.student.rangiffler.page.ProfilePage;
+import io.student.rangiffler.page.LandingPage;
+import io.student.rangiffler.config.TestConfig;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -30,5 +32,12 @@ public final class Header {
   public Header shouldAllowLogout() {
     assertThat(logoutButton).isVisible();
     return this;
+  }
+
+  @Step("Выйти из аккаунта")
+  public LandingPage logout() {
+    logoutButton.click();
+    page.waitForURL(TestConfig.FRONT_URL + "/");
+    return new LandingPage(page);
   }
 }
