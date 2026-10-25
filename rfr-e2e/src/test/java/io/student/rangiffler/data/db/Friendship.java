@@ -19,14 +19,22 @@ public final class Friendship implements Row {
 
   @Override
   public void create() {
-    int rows = JDBC.jdbcClient(API).sql(JDBC.loadSql("sql/api/insert-friendship.sql"))
+    JDBC.requireRows(JDBC.jdbcClient(API).sql(JDBC.loadSql("sql/api/insert-friendship.sql"))
         .param("id", id.toString())
         .param("requesterId", requester.toString())
         .param("addresseeId", addressee.toString())
         .param("status", status)
-        .update();
-    if (rows != 1) {
-      throw new IllegalStateException("Expected one friendship " + id + " but inserted " + rows);
-    }
+        .update(), 1, "Creating friendship " + id);
+  }
+
+  @Override
+  public void delete() {
+    JDBC.jdbcClient(API).sql(JDBC.loadSql("sql/api/delete-friendship.sql")).param("id", id.toString()).update();
+  }
+
+  @Override
+  public boolean exists() {
+    return JDBC.jdbcClient(API).sql(JDBC.loadSql("sql/api/count-friendship.sql"))
+        .param("id", id.toString()).query(Long.class).single() > 0;
   }
 }

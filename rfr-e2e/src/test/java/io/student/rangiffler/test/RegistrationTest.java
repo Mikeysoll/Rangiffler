@@ -4,7 +4,8 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
-import io.student.rangiffler.data.db.RegisteredUserRows;
+import io.student.rangiffler.data.db.AuthAccount;
+import io.student.rangiffler.data.db.Profile;
 import io.student.rangiffler.fixture.Registration;
 import io.student.rangiffler.fixture.RegistrationFixture;
 import io.student.rangiffler.page.LandingPage;
@@ -37,7 +38,7 @@ public class RegistrationTest {
           .openProfile()
           .shouldBelongTo(registration.username());
     }
-    assertFalse(new RegisteredUserRows(registration.username()).getAsBoolean(),
+    assertFalse(new AuthAccount(registration.username()).exists() || new Profile(registration.username()).exists(),
         "Registered user was not removed from auth and API");
   }
 }

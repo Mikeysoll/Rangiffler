@@ -1,6 +1,7 @@
 package io.student.rangiffler.fixture;
 
-import io.student.rangiffler.data.db.RegisteredUserRows;
+import io.student.rangiffler.data.db.AuthAccount;
+import io.student.rangiffler.data.db.Profile;
 import io.student.rangiffler.utils.RandomDataUtils;
 
 public final class RegistrationFixture implements Registration {
@@ -27,6 +28,6 @@ public final class RegistrationFixture implements Registration {
 
   @Override
   public void close() {
-    new RegisteredUserRows(username).run();
+    new TearDown().with(new Profile(username)::delete).with(new AuthAccount(username)::delete).close();
   }
 }

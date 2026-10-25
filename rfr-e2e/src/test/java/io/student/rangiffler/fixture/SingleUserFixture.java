@@ -1,20 +1,17 @@
 package io.student.rangiffler.fixture;
 
-import io.student.rangiffler.data.AuthUserRepository;
-import io.student.rangiffler.data.db.ApiProfile;
-import io.student.rangiffler.data.db.RegisteredUserRows;
+import io.student.rangiffler.data.db.AuthAccount;
+import io.student.rangiffler.data.db.Profile;
 import io.student.rangiffler.model.TestUser;
 import io.student.rangiffler.utils.RandomDataUtils;
 import java.util.UUID;
 
 public final class SingleUserFixture implements UserFixture {
-  private final AuthUserRepository repository;
   private final TestUser user;
   private boolean creationAttempted;
   private boolean closed;
 
   public SingleUserFixture() {
-    repository = new AuthUserRepository();
     user = new TestUser(UUID.randomUUID(),
         RandomDataUtils.randomUsername(), RandomDataUtils.randomPassword());
   }
@@ -25,8 +22,8 @@ public final class SingleUserFixture implements UserFixture {
       throw new IllegalStateException("Fixture уже использована или закрыта");
     }
     creationAttempted = true;
-    repository.create(user);
-    new ApiProfile(user.id(), user.username()).create();
+    new AuthAccount(user.id(), user.username(), user.password()).create();
+    new Profile(user.id(), user.username()).create();
   }
 
   @Override
@@ -40,7 +37,7 @@ public final class SingleUserFixture implements UserFixture {
       return;
     }
     if (creationAttempted) {
-      new RegisteredUserRows(user.username()).run();
+      new TearDown().with(new Profile(user.username())::delete).with(new AuthAccount(user.username())::delete).close();
     }
     closed = true;
   }
