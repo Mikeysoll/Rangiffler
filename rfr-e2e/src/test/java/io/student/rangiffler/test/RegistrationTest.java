@@ -4,35 +4,40 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
+import io.student.rangiffler.data.db.RegisteredUserRows;
+import io.student.rangiffler.fixture.Registration;
+import io.student.rangiffler.fixture.RegistrationFixture;
 import io.student.rangiffler.page.LandingPage;
-import io.student.rangiffler.utils.RandomDataUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class RegistrationTest {
 
   @Test
   @DisplayName("Новый пользователь может авторизоваться после регистрации")
   void shouldAuthorizeUserAfterRegistration() {
-    String username = RandomDataUtils.randomUsername();
-    String password = RandomDataUtils.randomPassword();
-
-    try (Playwright playwright = Playwright.create();
+    Registration registration = new RegistrationFixture();
+    try (registration;
+         Playwright playwright = Playwright.create();
          Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
          BrowserContext context = browser.newContext()) {
       new LandingPage(context.newPage())
           .open()
           .register()
-          .fillRegistrationForm(username, password, password)
+          .fillRegistrationForm(registration.username(), registration.password(), registration.password())
           .registerUser()
           .shouldBeSuccessful()
           .signIn()
           .login()
-          .fillLoginForm(username, password)
+          .fillLoginForm(registration.username(), registration.password())
           .signIn()
           .shouldBeAuthenticated()
           .openProfile()
-          .shouldBelongTo(username);
+          .shouldBelongTo(registration.username());
     }
+    assertFalse(new RegisteredUserRows(registration.username()).getAsBoolean(),
+        "Registered user was not removed from auth and API");
   }
 }
