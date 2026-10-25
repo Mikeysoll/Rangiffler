@@ -1,0 +1,64 @@
+- generic [ref=f7e1]:
+  - generic [ref=f7e2]:
+    - generic:
+      - banner [ref=f7e6]:
+        - generic [ref=f7e7]:
+          - button "open drawer" [ref=f7e555] [cursor=pointer]
+          - link [ref=f7e556] [cursor=pointer]:
+            - /url: /my-travels
+            - heading "Rangiffler" [level=1] [ref=f7e557]
+          - generic [ref=f7e13]:
+            - button "Toggle dark mode" [ref=f7e558] [cursor=pointer]
+            - link "Profile" [ref=f7e559] [cursor=pointer]:
+              - /url: /profile
+              - generic [ref=f7e18]: P
+            - button "Logout" [ref=f7e560] [cursor=pointer]
+      - list [ref=f7e25]:
+        - listitem [ref=f7e26]:
+          - link "My map" [ref=f7e561] [cursor=pointer]:
+            - /url: /my-travels
+        - listitem [ref=f7e31]:
+          - link "People" [ref=f7e562] [cursor=pointer]:
+            - /url: /people
+        - listitem [ref=f7e37]:
+          - link "Profile" [active] [ref=f7e563] [cursor=pointer]:
+            - /url: /profile
+    - main [ref=f7e42]:
+      - generic [ref=f7e858]:
+        - button "Update avatar" [ref=f7e866] [cursor=pointer]
+        - generic [ref=f7e867]:
+          - heading "My profile" [level=2] [ref=f7e868]
+          - generic [ref=f7e869]:
+            - generic [ref=f7e871]:
+              - generic: First Name
+              - generic [ref=f7e872]:
+                - textbox "First Name" [ref=f7e873]
+                - group [aria-hidden]:
+                  - generic: First Name
+            - generic [ref=f7e875]:
+              - generic: Surname
+              - generic [ref=f7e876]:
+                - textbox "Surname" [ref=f7e877]
+                - group [aria-hidden]:
+                  - generic: Surname
+            - generic [ref=f7e879]:
+              - generic [ref=f7e880]: Username
+              - generic [ref=f7e881]:
+                - textbox "Username" [disabled] [ref=f7e882]: pw_explorer_20261024_2024
+                - group [aria-hidden]:
+                  - generic: Username
+            - generic [ref=f7e884]:
+              - generic [ref=f7e885]: Location
+              - generic [ref=f7e886]:
+                - combobox "Location" [ref=f7e887] [cursor=pointer]:
+                  - img "Russian Federation" [ref=f7e888]
+                  - text: Russian Federation
+                - textbox [aria-hidden]: ru
+                - group [aria-hidden]:
+                  - generic: Location
+            - generic [ref=f7e890]:
+              - button "Reset" [ref=f7e891] [cursor=pointer]
+              - button "Save" [ref=f7e892] [cursor=pointer]
+  - generic: Location
+  - generic: Description
+  - tooltip "Profile" [ref=f7e893]

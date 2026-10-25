@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -NoProfile -Command \"& (Join-Path (git rev-parse --show-toplevel) '.codex/hooks/compile.ps1') -Initialize\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|apply_patch|Write|Edit|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -NoProfile -Command \"& (Join-Path (git rev-parse --show-toplevel) '.codex/hooks/compile.ps1')\"",
+            "timeout": 600,
+            "statusMessage": "Compiling changed Java/frontend sources",
+            "additionalContextLimit": 6000
+          }
+        ]
+      }
+    ]
+  }
+}

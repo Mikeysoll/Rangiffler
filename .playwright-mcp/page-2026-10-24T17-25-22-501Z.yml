@@ -1,0 +1,59 @@
+- generic [ref=f7e1]:
+  - generic [ref=f7e2]:
+    - generic:
+      - banner [ref=f7e6]:
+        - generic [ref=f7e7]:
+          - button "open drawer" [ref=f7e555] [cursor=pointer]
+          - link [ref=f7e556] [cursor=pointer]:
+            - /url: /my-travels
+            - heading "Rangiffler" [level=1] [ref=f7e557]
+          - generic [ref=f7e13]:
+            - button "Toggle dark mode" [ref=f7e558] [cursor=pointer]
+            - link "Profile" [ref=f7e559] [cursor=pointer]:
+              - /url: /profile
+              - generic [ref=f7e18]: P
+            - button "Logout" [ref=f7e560] [cursor=pointer]
+      - list [ref=f7e25]:
+        - listitem [ref=f7e26]:
+          - link "My map" [ref=f7e561] [cursor=pointer]:
+            - /url: /my-travels
+        - listitem [ref=f7e31]:
+          - link "People" [ref=f7e562] [cursor=pointer]:
+            - /url: /people
+        - listitem [ref=f7e37]:
+          - link "Profile" [ref=f7e563] [cursor=pointer]:
+            - /url: /profile
+    - main [ref=f7e42]:
+      - generic [ref=f7e760]:
+        - heading "People" [level=2] [ref=f7e761]
+        - tablist "People tabs" [ref=f7e765]:
+          - tab "Friends" [ref=f7e766] [cursor=pointer]
+          - tab "All People" [active] [selected] [ref=f7e767] [cursor=pointer]
+          - tab "Outcome invitations" [ref=f7e768] [cursor=pointer]
+          - tab "Income invitations" [ref=f7e769] [cursor=pointer]
+        - tabpanel [ref=f7e771]:
+          - generic [ref=f7e788]:
+            - generic [ref=f7e790]:
+              - textbox "search people" [ref=f7e794]:
+                - /placeholder: Search people
+              - button "search" [ref=f7e795] [cursor=pointer]
+            - table [ref=f7e799]:
+              - rowgroup [ref=f7e800]:
+                - row [ref=f7e801]:
+                  - columnheader "Avatar" [ref=f7e802]
+                  - columnheader "Username" [ref=f7e803]
+                  - columnheader "Name" [ref=f7e804]
+                  - columnheader "Surname" [ref=f7e805]
+                  - columnheader "Location" [ref=f7e806]
+                  - columnheader "Actions" [ref=f7e807]
+              - rowgroup [ref=f7e808]:
+                - row [ref=f7e809]:
+                  - rowheader [ref=f7e810]
+                  - cell "pw_explorer_20261024" [ref=f7e814]
+                  - cell "Тестовый" [ref=f7e815]
+                  - cell "Исследователь" [ref=f7e816]
+                  - cell "Russian Federation" [ref=f7e817]
+                  - cell [ref=f7e819]:
+                    - button [ref=f7e820] [cursor=pointer]
+  - generic: Location
+  - generic: Description

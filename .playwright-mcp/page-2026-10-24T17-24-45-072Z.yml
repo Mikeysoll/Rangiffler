@@ -1,0 +1,11 @@
+- main [ref=f4e2]:
+  - generic [ref=f4e5]:
+    - heading "Rangiffler logo Rangiffler" [level=1] [ref=f4e6]:
+      - img "Rangiffler logo" [ref=f4e7]
+      - generic [ref=f4e8]: Rangiffler
+    - paragraph [ref=f4e9]: Create an account and start mapping your trips.
+    - generic [ref=f4e10]:
+      - paragraph [ref=f4e11]: Congratulations! You've registered!
+      - paragraph [ref=f4e12]:
+        - link "Sign in" [ref=f4e13] [cursor=pointer]:
+          - /url: http://localhost:3001
