@@ -1,4 +1,4 @@
-package io.student.rangiffler.test;
+package io.student.rangiffler.test.auth;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;

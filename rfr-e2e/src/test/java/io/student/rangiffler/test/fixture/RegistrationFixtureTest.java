@@ -1,4 +1,4 @@
-package io.student.rangiffler.test;
+package io.student.rangiffler.test.fixture;
 
 import io.student.rangiffler.data.db.AuthAccount;
 import io.student.rangiffler.data.db.Profile;

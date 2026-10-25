@@ -1,4 +1,4 @@
-package io.student.rangiffler.test;
+package io.student.rangiffler.test.data;
 
 import io.student.rangiffler.annotation.User;
 import io.student.rangiffler.data.UserRequest;

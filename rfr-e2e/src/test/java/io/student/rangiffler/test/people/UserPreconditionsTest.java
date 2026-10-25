@@ -1,4 +1,4 @@
-package io.student.rangiffler.test;
+package io.student.rangiffler.test.people;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.junit.UsePlaywright;

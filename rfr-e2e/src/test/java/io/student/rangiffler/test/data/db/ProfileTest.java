@@ -1,4 +1,4 @@
-package io.student.rangiffler.test;
+package io.student.rangiffler.test.data.db;
 
 import io.student.rangiffler.data.db.Friendship;
 import io.student.rangiffler.data.db.Profile;

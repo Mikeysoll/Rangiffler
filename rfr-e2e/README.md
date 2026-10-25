@@ -40,9 +40,22 @@ E2E-тесты Rangiffler: JUnit 6.1.3, Playwright Java 1.63 (`@UsePlaywright`),
 | `data` | тестовые данные и их владельцы: `TestUser`, `UserFixture` с реализацией `SingleUserFixture` и декораторами `UserWithFriendsFixture`, `UserWithIncomeInvitationsFixture`, `UserRequest` собирает их цепочку; `db` — `Databases`, `Jdbc` и неизменяемые объекты строк (`Row`/`Rows`: `AuthAccount`, `ApiProfile`, `Friendship`, `Friendships`), которые прячут весь SQL за `create`/`delete`/`exists`; `Migrations` сверяет схему БД с миграциями бэкенда через Flyway validate |
 | `utils` | статические утилиты без состояния: `RandomDataUtils` — случайные username/password; сюда же будущие генераторы (описания фото и т.п.) |
 | `ui` | `page` — Page Objects, `component` — общие части страниц |
-| `test` | только тесты, по фичам: `auth`, `profile`, позже `people`, … |
+| `test/auth` | вход и регистрация через UI |
+| `test/main` | главная страница |
+| `test/people` | друзья и входящие приглашения |
+| `test/data` | параметры `UserRequest`; `db` — объекты строк базы данных |
+| `test/fixture` | создание и очистка данных фикстурами |
+| `test/extension` | контракт `UserExtension` через EngineTestKit; `probe` — наблюдение за внутренними сценариями |
 
 Правила: в `jupiter` нет SQL и локаторов; в `data` нет JUnit; в `test` нет локаторов и SQL; `ThreadLocal` для состояния теста не используется — состояние живёт в Store расширения.
+
+`UserExtensionTest` использует настоящую MySQL и не требует браузера. Запуск из PowerShell:
+
+```powershell
+./gradlew.bat :rfr-e2e:test --tests 'io.student.rangiffler.test.extension.UserExtensionTest'
+```
+
+Внутренние сценарии помечены `@ProbeTarget` и выполняются только при явном включении из EngineTestKit. `TestReporter` фиксирует этапы `before`, `body`, `after` и результат проверки после закрытия Store (`store-closed`), без паролей. Проверяются предусловия, сочетание декораторов, изоляция параметров и параллельных методов, очистка после успеха и ошибки, отклонение некорректных параметров.
 
 ## Агент
 
