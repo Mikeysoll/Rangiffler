@@ -24,6 +24,12 @@ public final class JDBC {
     new TransactionTemplate(database.transactionManager()).executeWithoutResult(status -> action.run());
   }
 
+  public static void requireRows(int actual, int expected, String context) {
+    if (actual != expected) {
+      throw new IllegalStateException(context + " expected " + expected + " rows but affected " + actual);
+    }
+  }
+
   public static String loadSql(String resourcePath) {
     try (var stream = new ClassPathResource(resourcePath).getInputStream()) {
       return new String(stream.readAllBytes(), StandardCharsets.UTF_8);

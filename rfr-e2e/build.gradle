@@ -33,8 +33,9 @@ dependencies {
     testRuntimeOnly 'com.mysql:mysql-connector-j'
 
     testImplementation "org.junit.jupiter:junit-jupiter"
+    testImplementation 'org.junit.platform:junit-platform-testkit'
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
-    testRuntimeOnly "org.aspectj:aspectjrt:$aspectJVersion"
+    testImplementation "org.aspectj:aspectjrt:$aspectJVersion"
 }
 
 
@@ -46,6 +47,7 @@ allure {
 }
 
 test {
+    outputs.upToDateWhen { false }
     useJUnitPlatform()
     systemProperties System.getProperties().findAll { key, value -> key.toString().startsWith('rfr.') }
     jvmArgumentProviders.add({ ["-javaagent:${configurations.agent.singleFile}"] } as CommandLineArgumentProvider)

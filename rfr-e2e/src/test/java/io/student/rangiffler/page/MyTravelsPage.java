@@ -15,11 +15,13 @@ public final class MyTravelsPage {
   private final Page page;
   private final Header header;
   private final Locator main;
+  private final Locator people;
 
   public MyTravelsPage(Page page) {
     this.page = page;
     header = new Header(page);
     main = page.getByRole(AriaRole.MAIN);
+    people = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("People").setExact(true));
   }
 
   @Step("Проверить успешную авторизацию на странице путешествий")
@@ -45,5 +47,11 @@ public final class MyTravelsPage {
   @Step("Открыть профиль")
   public ProfilePage openProfile() {
     return header.openProfile();
+  }
+
+  @Step("Открыть список пользователей")
+  public PeoplePage openPeople() {
+    people.click();
+    return new PeoplePage(page);
   }
 }

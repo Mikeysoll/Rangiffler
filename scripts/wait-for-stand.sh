@@ -7,9 +7,17 @@ if [[ ! "$timeout" =~ ^[1-9][0-9]*$ ]]; then
   exit 1
 fi
 
+mysql_ready() {
+  if [[ -n "${MYSQL_CONTAINER_ID:-}" ]]; then
+    docker exec "$MYSQL_CONTAINER_ID" mysql -uroot -psecret -Nse 'SELECT 1'
+  else
+    docker compose exec -T mysql mysql -uroot -psecret -Nse 'SELECT 1'
+  fi
+}
+
 deadline=$((SECONDS + timeout))
 while (( SECONDS < deadline )); do
-  if docker compose exec -T mysql mysql -uroot -psecret -Nse 'SELECT 1' >/dev/null 2>&1 &&
+  if mysql_ready >/dev/null 2>&1 &&
      curl --fail --silent --max-time 3 http://localhost:9001/.well-known/openid-configuration >/dev/null &&
      curl --fail --silent --max-time 3 http://localhost:8081/graphql \
        -H 'Content-Type: application/json' -d '{"query":"{ __typename }"}' | grep -q '"__typename"' &&

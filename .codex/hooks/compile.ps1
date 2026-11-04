@@ -48,17 +48,32 @@ try {
         }
         $frontend = @($changed | Where-Object { $_ -like 'rfr-gql-client/*' }).Count -gt 0
         $messages = @()
+        $failed = $false
         if ($tasks.Count -gt 0) {
             if (-not $env:JAVA_HOME -and (Test-Path 'C:/Users/Biam/.jdks/openjdk-25.0.1')) {
                 $env:JAVA_HOME = 'C:/Users/Biam/.jdks/openjdk-25.0.1'
             }
             $output = (& cmd.exe /d /c ".\gradlew.bat $($tasks -join ' ') --console=plain 2>&1" | Out-String)
+            if ($LASTEXITCODE -ne 0) { $failed = $true }
             $messages += "Java: $($tasks -join ' ')`nExit code: $LASTEXITCODE`n$output"
         }
         if ($frontend) {
             Push-Location (Join-Path $root 'rfr-gql-client')
             try {
+                $files = @($changed | Where-Object { $_ -like 'rfr-gql-client/*' -and $_ -match '\.(ts|tsx)$' -and (Test-Path -LiteralPath (Join-Path $root $_) -PathType Leaf) } | ForEach-Object { $_.Substring('rfr-gql-client/'.Length) })
+                foreach ($file in $files) {
+                    $arguments = @('node_modules/eslint/bin/eslint.js', '--report-unused-disable-directives', '--max-warnings', '0', '--', $file)
+                    $preference = $ErrorActionPreference
+                    try {
+                        $ErrorActionPreference = 'Continue'
+                        $output = (& node @arguments 2>&1 | Out-String)
+                        $code = $LASTEXITCODE
+                    } finally { $ErrorActionPreference = $preference }
+                    if ($code -ne 0) { $failed = $true }
+                    $messages += "Frontend: ESLint $file`nExit code: $code`n$output"
+                }
                 $output = (& cmd.exe /d /c 'npm.cmd run build 2>&1' | Out-String)
+                if ($LASTEXITCODE -ne 0) { $failed = $true }
                 $messages += "Frontend: npm run build`nExit code: $LASTEXITCODE`n$output"
             } finally { Pop-Location }
         }
@@ -71,9 +86,11 @@ try {
             if ($report.Length -gt 20000) { $report = $report.Substring(0, 5000) + "`n...`n" + $report.Substring($report.Length - 15000) }
             Send-Context "Automatic compilation after source changes. Fix any reported errors before finishing.`nFull output: $logPath`n$report"
         }
+        if ($failed) { exit 1 }
     } finally { Pop-Location }
 } catch {
     Send-Context "Compilation hook failed: $($_.Exception.Message). Run the relevant compilation manually."
+    exit 1
 } finally {
     if ($locked) { $mutex.ReleaseMutex() }
     $mutex.Dispose()
