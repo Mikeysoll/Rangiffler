@@ -34,3 +34,44 @@ prefix_rule(
     decision = "forbidden",
     justification = "Rename the project file or directory to a unique .bak path instead; preserve existing backups.",
 )
+
+# Exact argv prefixes only: these rules do not parse arbitrary Git options or shell scripts.
+prefix_rule(
+    pattern = [["git", "git.exe"], ["push", "rm"]],
+    decision = "forbidden",
+    justification = "Push requires explicit authorization; use a unique .bak backup instead of deleting files.",
+    match = ["git push origin main", "git rm --cached example.txt"],
+    not_match = ["git status", "git diff", "git log", "git show"],
+)
+
+prefix_rule(
+    pattern = [["git", "git.exe"], "-C", [".", "./"], ["push", "rm"]],
+    decision = "forbidden",
+    justification = "Changing the Git directory does not authorize pushing or deleting files.",
+    match = ["git -C . push origin main", "git -C ./ rm example.txt"],
+    not_match = ["git -C . status", "git -C . diff"],
+)
+
+prefix_rule(
+    pattern = [["unlink", "unlink.exe", "rm.exe", "rmdir.exe"]],
+    decision = "forbidden",
+    justification = "Preserve files by moving them to a unique .bak path.",
+)
+
+prefix_rule(
+    pattern = [["find", "find.exe"], [".", "./"], "-delete"],
+    decision = "forbidden",
+    justification = "The find deletion action violates the backup policy.",
+    match = ["find . -delete", "find ./ -delete"],
+    not_match = ["find . -name *.java", "mv source.txt source.txt.bak"],
+)
+
+prefix_rule(
+    pattern = [["find", "find.exe"], "-delete"],
+    decision = "forbidden",
+)
+
+prefix_rule(
+    pattern = [["find", "find.exe"], [".", "./"], "-type", ["f", "d"], "-delete"],
+    decision = "forbidden",
+)
