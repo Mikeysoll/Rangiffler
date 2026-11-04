@@ -1,0 +1,9 @@
+<aspectj>
+    <aspects>
+        <aspect name="io.student.rangiffler.test.extension.probe.UserCreation"/>
+    </aspects>
+    <weaver>
+        <include within="io.student.rangiffler.test.extension..*"/>
+        <include within="io.student.rangiffler.fixture.SingleUserFixture"/>
+    </weaver>
+</aspectj>

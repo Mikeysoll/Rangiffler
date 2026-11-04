@@ -35,7 +35,7 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter"
     testImplementation 'org.junit.platform:junit-platform-testkit'
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
-    testRuntimeOnly "org.aspectj:aspectjrt:$aspectJVersion"
+    testImplementation "org.aspectj:aspectjrt:$aspectJVersion"
 }
 
 

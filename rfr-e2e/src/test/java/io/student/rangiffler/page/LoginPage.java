@@ -8,6 +8,8 @@ import io.qameta.allure.Step;
 import io.qameta.allure.model.Parameter;
 import io.student.rangiffler.config.TestConfig;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+
 public final class LoginPage {
   public static String URL = TestConfig.AUTH_URL + "/login";
 
@@ -34,5 +36,18 @@ public final class LoginPage {
   public MyTravelsPage signIn() {
     submitButton.click();
     return new MyTravelsPage(page);
+  }
+
+  @Step("Отправить форму с неверными учётными данными")
+  public LoginPage submitInvalidCredentials() {
+    submitButton.click();
+    return this;
+  }
+
+  @Step("Проверить ошибку Bad credentials")
+  public LoginPage checkThatBadCredentials() {
+    assertThat(page.locator(".form__error")).isVisible();
+    assertThat(page.locator(".form__error")).hasText("Bad credentials");
+    return this;
   }
 }

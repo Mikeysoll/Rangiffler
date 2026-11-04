@@ -5,12 +5,16 @@ import io.student.rangiffler.annotation.User;
 import io.student.rangiffler.data.db.AuthAccount;
 import io.student.rangiffler.data.db.Friendships;
 import io.student.rangiffler.data.db.Profile;
+import io.student.rangiffler.data.db.UserSnapshot;
 import io.student.rangiffler.extension.UserExtension;
 import io.student.rangiffler.model.TestUser;
 import io.student.rangiffler.test.extension.probe.ObservedUser;
+import io.student.rangiffler.test.extension.probe.UserCreation;
+import org.aspectj.lang.Aspects;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +34,7 @@ import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
 public class UserExtensionTest {
 
   @Test
+  @DisplayName("UserExtension создаёт учётную запись и профиль до выполнения теста")
   void preparesAccountAndProfileBeforeTestBody(TestReporter reporter) {
     EngineExecutionResults result = execute(Observed.class, reporter);
     Map<String, String> body = body(result);
@@ -39,6 +44,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("Этапы жизненного цикла выполняются в порядке до теста, тело теста, после теста")
   void reportsLifecycleInExecutionOrder(TestReporter reporter) {
     EngineExecutionResults result = execute(Observed.class, reporter);
     assertEquals(List.of("before", "body", "after"), entries(result).stream().map(entry -> entry.get("phase")).toList(),
@@ -46,6 +52,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("UserExtension удаляет пользователя после успешного теста")
   void removesUserAfterSuccessfulExecution(TestReporter reporter) {
     EngineExecutionResults result = execute(Observed.class, reporter);
     assertTrue(result.testEvents().succeeded().count() == 1 && removed(body(result).get("users"), reporter),
@@ -53,6 +60,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("UserExtension удаляет пользователя и его связи после ошибки в теле теста")
   void removesWholeFixtureAfterTestBodyFails(TestReporter reporter) {
     EngineExecutionResults result = execute(Failing.class, reporter);
     assertTrue(result.testEvents().failed().count() == 1 && failure(result).contains("Planned probe failure")
@@ -61,6 +69,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("UserExtension создаёт запрошенных друзей и удаляет фикстуру после теста")
   void preparesRequestedFriends(TestReporter reporter) {
     EngineExecutionResults result = execute(WithFriends.class, reporter);
     Map<String, String> body = body(result);
@@ -70,6 +79,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("UserExtension создаёт запрошенные входящие приглашения и удаляет фикстуру после теста")
   void preparesRequestedIncomingInvitations(TestReporter reporter) {
     EngineExecutionResults result = execute(WithInvitations.class, reporter);
     Map<String, String> body = body(result);
@@ -79,6 +89,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("UserExtension совместно применяет параметры друзей и приглашений и удаляет фикстуру")
   void combinesBothDecoratorParameters(TestReporter reporter) {
     EngineExecutionResults result = execute(WithRelations.class, reporter);
     Map<String, String> body = body(result);
@@ -88,6 +99,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("Два параметра User получают разных пользователей и очищаются независимо")
   void assignsDistinctUsersToTwoParameters(TestReporter reporter) {
     EngineExecutionResults result = execute(TwoUsers.class, reporter);
     Map<String, String> body = body(result);
@@ -97,6 +109,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("Параллельные тестовые методы получают отдельных пользователей и удаляют свои данные")
   void isolatesConcurrentTestMethodStores(TestReporter reporter) {
     EngineExecutionResults result = EngineTestKit.engine("junit-jupiter").selectors(selectClass(Concurrent.class))
         .configurationParameter("rfr.probe.enabled", "true")
@@ -115,6 +128,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("UserExtension не мешает тесту с TestReporter без параметра User")
   void doesNotInterfereWithTestReporterWithoutUser(TestReporter reporter) {
     EngineExecutionResults result = execute(WithoutUser.class, reporter);
     assertTrue(result.testEvents().succeeded().count() == 1 && entries(result).equals(List.of(Map.of("phase", "without-user"))),
@@ -122,6 +136,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("UserExtension отклоняет параметр User неверного типа до выполнения тела теста")
   void cannotResolveAnnotatedParameterOfWrongType(TestReporter reporter) {
     EngineExecutionResults result = execute(WrongType.class, reporter);
     assertTrue(result.testEvents().failed().count() == 1 && entries(result).isEmpty()
@@ -130,6 +145,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("UserExtension отклоняет отрицательное количество друзей до выполнения тела теста")
   void cannotResolveNegativeFriendsCount(TestReporter reporter) {
     EngineExecutionResults result = execute(NegativeFriends.class, reporter);
     assertTrue(result.testEvents().failed().count() == 1 && entries(result).isEmpty()
@@ -137,6 +153,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("UserExtension отклоняет отрицательное количество приглашений до выполнения тела теста")
   void cannotResolveNegativeIncomingInvitationsCount(TestReporter reporter) {
     EngineExecutionResults result = execute(NegativeInvitations.class, reporter);
     assertTrue(result.testEvents().failed().count() == 1 && entries(result).isEmpty()
@@ -144,6 +161,7 @@ public class UserExtensionTest {
   }
 
   @Test
+  @DisplayName("Вспомогательный сценарий не запускается без явного разрешения EngineTestKit")
   void cannotRunProbeWithoutExplicitOptIn() {
     EngineExecutionResults result = EngineTestKit.engine("junit-jupiter").selectors(selectClass(Observed.class))
         .configurationParameter("rfr.probe.enabled", "false").execute();
@@ -157,6 +175,46 @@ public class UserExtensionTest {
         .configurationParameter("junit.jupiter.execution.parallel.enabled", "false").execute();
     entries(result).forEach(reporter::publishEntry);
     return result;
+  }
+
+  @Test
+  @DisplayName("Исходящее приглашение имеет правильное направление и очищается вместе с пользователями")
+  void preparesAndRemovesOutgoingInvitation(TestReporter reporter) {
+    EngineExecutionResults result = execute(WithOutcomeInvitation.class, reporter);
+    Map<String, String> body = body(result);
+    assertTrue(result.testEvents().succeeded().count() == 1 && body.get("valid").equals("true")
+        && removed(body.get("users"), reporter),
+        "Outgoing invitation had incorrect participants or status, or left database records");
+  }
+
+  @Test
+  @DisplayName("Отрицательное количество исходящих приглашений отклоняется до подготовки фикстуры")
+  void cannotResolveNegativeOutgoingInvitationsCount(TestReporter reporter) {
+    UserCreation observation = Aspects.aspectOf(UserCreation.class);
+    EngineExecutionResults calibration = execute(Observed.class, reporter);
+    List<String> names = observation.usernames();
+    UserSnapshot snapshot = new UserSnapshot(names);
+    EngineExecutionResults result = execute(NegativeOutcomeInvitations.class, reporter);
+    Throwable cause = result.testEvents().failed().stream()
+        .map(event -> event.getRequiredPayload(TestExecutionResult.class))
+        .flatMap(event -> event.getThrowable().stream())
+        .flatMap(error -> Optional.ofNullable(error.getCause()).stream()).findFirst().orElseThrow();
+    assertTrue(result.testEvents().failed().count() == 1 && entries(result).isEmpty()
+        && cause instanceof IllegalArgumentException && cause.getMessage().contains("outcomeInvitations=-1")
+        && calibration.testEvents().succeeded().count() == 1 && names.size() == 1
+        && observation.usernames().equals(names) && snapshot.equals(new UserSnapshot(names))
+        && removed(String.join(",", names), reporter),
+        "Negative outgoing invitations count invoked create, had an incorrect cause or left database records");
+  }
+
+  @Test
+  @DisplayName("Мишени исходящих приглашений отключены без явного разрешения EngineTestKit")
+  void cannotRunOutgoingProbesWithoutExplicitOptIn() {
+    EngineExecutionResults result = EngineTestKit.engine("junit-jupiter")
+        .selectors(selectClass(WithOutcomeInvitation.class), selectClass(NegativeOutcomeInvitations.class))
+        .configurationParameter("rfr.probe.enabled", "false").execute();
+    assertTrue(result.testEvents().started().count() == 0 && result.containerEvents().skipped().count() == 2,
+        "Outgoing invitation probes ran without explicit EngineTestKit opt-in");
   }
 
   private List<Map<String, String>> entries(EngineExecutionResults result) {
@@ -183,12 +241,14 @@ public class UserExtensionTest {
   }
 
   @ProbeTarget
+  @DisplayName("Подготовка пользователя и этапы жизненного цикла")
   public static class Observed {
     @BeforeEach
     void before(TestReporter reporter) {
       reporter.publishEntry("phase", "before");
     }
     @Test
+    @DisplayName("Вспомогательный сценарий сообщает о подготовленной учётной записи и профиле")
     void observed(TestReporter reporter, @User TestUser user) {
       new ObservedUser(reporter, user).run();
     }
@@ -199,41 +259,51 @@ public class UserExtensionTest {
   }
 
   @ProbeTarget
+  @DisplayName("Очистка фикстуры после намеренной ошибки")
   public static class Failing {
     @Test
-    void failing(TestReporter reporter, @User(friends = 2, incomeInvitations = 3) TestUser user) {
+    @DisplayName("Вспомогательный сценарий намеренно завершается с ошибкой после подготовки пользователя и связей")
+    void failing(TestReporter reporter, @User(friends = 2, incomeInvitations = 3, outcomeInvitations = 1) TestUser user) {
       new ObservedUser(reporter, user).run();
       throw new AssertionError("Planned probe failure");
     }
   }
 
   @ProbeTarget
+  @DisplayName("Подготовка пользователя с друзьями")
   public static class WithFriends {
     @Test
+    @DisplayName("Вспомогательный сценарий сообщает о пользователе с тремя друзьями")
     void observed(TestReporter reporter, @User(friends = 3) TestUser user) {
       new ObservedUser(reporter, user).run();
     }
   }
 
   @ProbeTarget
+  @DisplayName("Подготовка пользователя с входящими приглашениями")
   public static class WithInvitations {
     @Test
+    @DisplayName("Вспомогательный сценарий сообщает о пользователе с двумя входящими приглашениями")
     void observed(TestReporter reporter, @User(incomeInvitations = 2) TestUser user) {
       new ObservedUser(reporter, user).run();
     }
   }
 
   @ProbeTarget
+  @DisplayName("Совместная подготовка друзей и приглашений")
   public static class WithRelations {
     @Test
+    @DisplayName("Вспомогательный сценарий сообщает о пользователе с двумя друзьями и тремя приглашениями")
     void observed(TestReporter reporter, @User(friends = 2, incomeInvitations = 3) TestUser user) {
       new ObservedUser(reporter, user).run();
     }
   }
 
   @ProbeTarget
+  @DisplayName("Независимая подготовка двух пользователей")
   public static class TwoUsers {
     @Test
+    @DisplayName("Вспомогательный сценарий сообщает о двух разных подготовленных пользователях")
     void observed(TestReporter reporter, @User TestUser first, @User TestUser second) {
       reporter.publishEntry(Map.of("phase", "body", "users", first.username() + "," + second.username(),
           "distinct", Boolean.toString(!first.id().equals(second.id()) && !first.username().equals(second.username())),
@@ -243,12 +313,15 @@ public class UserExtensionTest {
   }
 
   @ProbeTarget
+  @DisplayName("Изоляция пользователей параллельных тестов")
   public static class Concurrent {
     @Test
+    @DisplayName("Первый параллельный сценарий сообщает о своём подготовленном пользователе")
     void first(TestReporter reporter, @User TestUser user) {
       new ObservedUser(reporter, user).run();
     }
     @Test
+    @DisplayName("Второй параллельный сценарий сообщает о своём подготовленном пользователе")
     void second(TestReporter reporter, @User TestUser user) {
       new ObservedUser(reporter, user).run();
     }
@@ -256,33 +329,67 @@ public class UserExtensionTest {
 
   @ProbeTarget
   @ExtendWith(UserExtension.class)
+  @DisplayName("Работа расширения без параметра User")
   public static class WithoutUser {
     @Test
+    @DisplayName("Вспомогательный сценарий с TestReporter выполняется без параметра User")
     void observed(TestReporter reporter) {
       reporter.publishEntry("phase", "without-user");
     }
   }
 
   @ProbeTarget
+  @DisplayName("Отклонение параметра User неверного типа")
   public static class WrongType {
     @Test
+    @DisplayName("Вспомогательный сценарий запрашивает строковый параметр с аннотацией User")
     void observed(TestReporter reporter, @User String user) {
       reporter.publishEntry("phase", "unexpected-body");
     }
   }
 
   @ProbeTarget
+  @DisplayName("Отклонение отрицательного количества друзей")
   public static class NegativeFriends {
     @Test
+    @DisplayName("Вспомогательный сценарий запрашивает отрицательное количество друзей")
     void observed(TestReporter reporter, @User(friends = -7) TestUser user) {
       reporter.publishEntry("phase", "unexpected-body");
     }
   }
 
   @ProbeTarget
+  @DisplayName("Отклонение отрицательного количества приглашений")
   public static class NegativeInvitations {
     @Test
+    @DisplayName("Вспомогательный сценарий запрашивает отрицательное количество входящих приглашений")
     void observed(TestReporter reporter, @User(incomeInvitations = -11) TestUser user) {
+      reporter.publishEntry("phase", "unexpected-body");
+    }
+  }
+
+  @ProbeTarget
+  @DisplayName("Создание исходящего приглашения")
+  public static class WithOutcomeInvitation {
+    @Test
+    void observed(TestReporter reporter, @User(outcomeInvitations = 1) TestUser user) {
+      TestUser invitee = user.outcomeInvitations().getFirst();
+      reporter.publishEntry(Map.of("phase", "body", "users", user.username() + "," + invitee.username(),
+          "valid", Boolean.toString(user.outcomeInvitations().size() == 1
+              && new AuthAccount(user.username()).exists() && new Profile(user.username()).exists()
+              && new AuthAccount(invitee.username()).exists() && new Profile(invitee.username()).exists()
+              && new Friendships(user.username()).exists() && new Friendships(invitee.username()).exists()
+              && new Friendships(invitee.username()).incomeInvitations() == 1
+              && new Friendships(invitee.username()).users().equals(List.of(user.username()))
+              && new Friendships(user.username()).incomeInvitations() == 0)));
+    }
+  }
+
+  @ProbeTarget
+  @DisplayName("Отклонение отрицательного количества исходящих приглашений")
+  public static class NegativeOutcomeInvitations {
+    @Test
+    void observed(TestReporter reporter, @User(outcomeInvitations = -1) TestUser user) {
       reporter.publishEntry("phase", "unexpected-body");
     }
   }

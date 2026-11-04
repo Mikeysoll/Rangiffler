@@ -11,7 +11,7 @@ import java.util.Optional;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public final class PeoplePage {
-  public static String URL = TestConfig.FRONT_URL + "/people";
+  public static final String URL = TestConfig.FRONT_URL + "/people";
 
   private final Page page;
   private final Locator main;
@@ -75,6 +75,38 @@ public final class PeoplePage {
   @Step("Проверить количество пользователей: {count}")
   public PeoplePage checkThatUsersCount(int count) {
     assertThat(panel.getByRole(AriaRole.ROW).filter(new Locator.FilterOptions().setHas(page.getByRole(AriaRole.CELL)))).hasCount(count);
+    return this;
+  }
+
+  @Step("Проверить точный состав вкладки: {usernames}")
+  public PeoplePage checkThatUsers(String... usernames) {
+    checkThatUsersCount(usernames.length);
+    for (String username : usernames) {
+      assertThat(row(username)).isVisible();
+    }
+    return this;
+  }
+
+  @Step("Проверить кнопки пользователя {username}: {buttons}")
+  public PeoplePage checkThatRowButtons(String username, String... buttons) {
+    assertThat(row(username).getByRole(AriaRole.BUTTON)).hasText(buttons);
+    for (String button : buttons) {
+      assertThat(row(username).getByRole(AriaRole.BUTTON,
+          new Locator.GetByRoleOptions().setName(button).setExact(true))).isVisible();
+    }
+    return this;
+  }
+
+  @Step("Проверить ожидание ответа пользователя {username}")
+  public PeoplePage checkThatWaitingFor(String username) {
+    assertThat(row(username).getByText(java.util.regex.Pattern.compile("^Waiting(?:\\.\\.\\.|…)$"))).isVisible();
+    return this;
+  }
+
+  @Step("Проверить пустое состояние вкладки")
+  public PeoplePage checkThatEmpty() {
+    assertThat(panel.getByText("There are no users yet", new Locator.GetByTextOptions().setExact(true))).isVisible();
+    checkThatUsersCount(0);
     return this;
   }
 

@@ -1,9 +1,7 @@
 package io.student.rangiffler.test.auth;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.junit.UsePlaywright;
 import io.student.rangiffler.data.db.AuthAccount;
 import io.student.rangiffler.data.db.Profile;
 import io.student.rangiffler.fixture.Registration;
@@ -14,17 +12,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+@UsePlaywright
 public class RegistrationTest {
 
   @Test
   @DisplayName("Новый пользователь может авторизоваться после регистрации")
-  void shouldAuthorizeUserAfterRegistration() {
+  void shouldAuthorizeUserAfterRegistration(Page page) {
     Registration registration = new RegistrationFixture();
-    try (registration;
-         Playwright playwright = Playwright.create();
-         Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-         BrowserContext context = browser.newContext()) {
-      new LandingPage(context.newPage())
+    try (registration) {
+      new LandingPage(page)
           .open()
           .register()
           .fillRegistrationForm(registration.username(), registration.password(), registration.password())
